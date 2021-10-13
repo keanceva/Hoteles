@@ -1,0 +1,88 @@
+{% extends 'layout_administrador.html' %}
+{% block content %}
+
+
+<div class="row">
+        <div class="col-lg-10">
+            <a href="/administracion/noticias/create"
+                class="btn btn-primary btn-agregar-adm">
+                <i class="fas fa-plus"></i> Agregar noticia
+            </a>
+        </div>
+    </div>
+    <div class="float-right">Número de Noticias: {{noticias.count}}</div>
+<div class="table-responsive">
+	<table id="noticias" class="table">
+        <thead>
+        <tr>
+            <th scope="col" class="border-0 bg-light">
+            <div class="p-2 px-3 text-uppercase">Id</div>
+            </th>
+            <th scope="col" class="border-0 bg-light">
+            <div class="p-2 px-3 text-uppercase">Imagen</div>
+            </th>
+            <th scope="col" class="border-0 bg-light">
+            <div class="p-2 px-3 text-uppercase">Titulo</div>
+            </th>
+            <th scope="col" class="border-0 bg-light">
+            <div class="p-2 px-3 text-uppercase">Noticia</div>
+            </th>
+            <th scope="col" class="border-0 bg-light">
+            <div class="py-2 text-uppercase">Acciones</div>
+            </th>
+        </tr>
+        </thead>
+		<tbody>
+        {% if noticias %}
+        {% for noticia in noticias %}
+        <tr>
+            <td class="align-middle"><strong>{{noticia.id}}</strong></td> 
+            <td scope="col">
+            <div class="p-2">
+                <img src="{{noticia.path_image.url}}" alt="" width="70" class="img-fluid rounded shadow-sm">
+                <div class="ml-3 d-inline-block align-middle">
+                </div>
+            </div>
+            </td>
+            <td class="align-middle"><strong>{{noticia.titulo}}</strong></td> 
+            <td class="align-middle">
+                <div class="noticia">
+                    <strong>{{noticia.noticia}}</strong>
+                </div>
+            </td>              
+            <td class="align-middle">
+                <a href="{% url 'administracion:noticia_eliminar' noticia.id %}" class="text-dark"><i class="fa fa-trash"></i></a>
+                <a class= "btn btn-primary" href="{% url 'administracion:noticia_editar' noticia.id %}">Editar</a>
+            </td>
+        </tr>
+        
+        {% endfor %}
+
+        {% else %}
+            <h4>No hay noticias todavia</h4>
+        {% endif %}
+        </tbody>
+    </table>
+</div>
+
+
+{% block scripts %}
+  {{ block.super }}    
+  
+{% endblock %}
+<script>
+        $(document).ready(function() {
+            $('#noticias').DataTable({
+                "columns": [
+                    { "width": "5%" },
+                    { "width": "10%" },
+                    { "width": "10%" },
+                    { "width": "55%" },
+                    { "width": "20%" },
+                ]
+            });
+        } );
+    
+        console.log("script load")
+    </script>
+{% endblock %}

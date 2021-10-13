@@ -1,0 +1,118 @@
+{% extends "layout_cliente.html" %}
+{% block content %}
+    <section class="ftco-booking ftco-section ftco-no-pt ftco-no-pb">
+    	<div class="container">
+    		<div class="row">
+    			<div class="col-lg-12 pr-1 aside-stretch">
+    				<form action="/reservas/busqueda-normal" method="POST" class="booking-form">
+					{% csrf_token %}
+	        		<div class="row">
+						<div class="col-md d-flex py-md-3">
+	        				<div class="form-group align-self-stretch d-flex align-items-end">
+	        					<div class="wrap bg-white align-self-stretch py-3 px-4">
+			      					<label for="#">Tipo</label>
+			      					<div class="form-field">
+			        					<div class="select-wrap">
+						                    <div class="icon"><span class="ion-ios-arrow-down"></span></div>
+			                    			<select name="select_tipo_reserva" id="select_tipo_reserva" class="form-control" onchange='handleTipo()'>
+												{% for type in booking_type %}
+													<option value={{ type.id }}>{{ type.name }}</option>
+												{% endfor %}
+			                    			</select>
+			                  			</div>
+				              		</div>
+				            	</div>
+		              		</div>
+	        			</div>
+						<div class="col-md-3 d-flex py-md-3">
+	        				<div class="form-group align-self-stretch d-flex align-items-end">
+	        					<div class="wrap bg-white align-self-stretch py-3 px-4">
+				    					<label for="#">Entrada - Salida</label>
+				    					<input name="fecha_reserva" type="text" class="form-control">
+			    					</div>
+			    				</div>
+	        			</div>	        			
+	        			<div class="col-md d-flex py-md-3" id="div-habitacion">
+	        				<div class="form-group align-self-stretch d-flex align-items-end">
+	        					<div class="wrap bg-white align-self-stretch py-3 px-4">
+			      					<label for="#">Habitación</label>
+			      					<div class="form-field">
+			        					<div class="select-wrap">
+						                    <div class="icon"><span class="ion-ios-arrow-down"></span></div>
+			                    			<select name="select_tipo_habitacion" id="select_tipo_habitacion" class="form-control">
+												{% for type in room_type %}
+													<option value={{ type.id }}>{{ type.nombre }}</option>
+												{% endfor %}
+			                    			</select>
+			                  			</div>
+				              		</div>
+				            	</div>
+		              		</div>
+	        			</div>
+						<div class="col-md d-flex py-md-3 div-invitados" id="div-invitados">
+	        				<div class="form-group align-self-stretch d-flex align-items-end">
+	        					<div class="wrap bg-white align-self-stretch py-3 px-4">
+			      					<label for="#">Invitados</label>
+			      					<div class="form-field">
+			        					<div class="select-wrap">
+			                    			<div class="icon"><span class="ion-ios-arrow-down"></span></div>
+											<select name="select_num_invitados" id="select_num_invitados" class="form-control">
+												<option value="1">1</option>
+												<option value="2">2</option>
+												<option value="3">3</option>
+												<option value="4">4</option>
+											</select>
+			                  			</div>
+				            		</div>
+				            	</div>
+		              		</div>
+		        		</div>
+	        			<div class="col-md d-flex py-md-3" id="div-adultos">
+	        				<div class="form-group align-self-stretch d-flex align-items-end">
+	        					<div class="wrap bg-white align-self-stretch py-3 px-4">
+			      					<label for="#">Adultos</label>
+			      					<div class="form-field">
+			        					<div class="select-wrap">
+			                    			<div class="icon"><span class="ion-ios-arrow-down"></span></div>
+											<select name="select_num_adultos" id="select_num_adultos" class="form-control">
+												<option value="1">1</option>
+												<option value="2">2</option>
+												<option value="3">3</option>
+												<option value="4">4</option>
+											</select>
+			                  			</div>
+				            		</div>
+				            	</div>
+		              		</div>
+		        		</div>
+						<div class="col-md d-flex py-md-3" id="div-ninos">
+	        				<div class="form-group align-self-stretch d-flex align-items-end">
+	        					<div class="wrap bg-white align-self-stretch py-3 px-4">
+			      					<label for="#">Niños</label>
+			      					<div class="form-field">
+			        					<div class="select-wrap">
+			                    			<div class="icon"><span class="ion-ios-arrow-down"></span></div>
+											<select name="select_num_ninos" id="select_num_adultos" class="form-control">
+												<option value="0">0</option>
+												<option value="1">1</option>
+												<option value="2">2</option>
+												<option value="3">3</option>
+												<option value="4">4</option>
+											</select>
+			                  			</div>
+				            		</div>
+				            	</div>
+		              		</div>
+		        		</div>
+	        			<div class="col-md d-flex">
+	        				<div class="form-group d-flex align-self-stretch">
+			              		<button type="submit" class="btn btn-black py-5 py-md-3 px-4 align-self-stretch d-block">BUSCAR
+			            	</div>
+	        			</div>
+	        		</div>
+	        	</form>
+	    		</div>
+    		</div>
+    	</div>
+    </section>
+{% endblock %}

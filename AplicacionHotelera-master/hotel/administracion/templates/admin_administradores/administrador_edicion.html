@@ -1,0 +1,61 @@
+{% extends 'layout_administrador.html' %}
+{% block content %}
+{% load static %}
+<form action="/administracion/administrador-edicion/{{ administrador.id }}" class="form-style" method="POST">
+    {% csrf_token %}
+    <div class="row form-row">
+        <div class="col-md-6 col-lg-6 col-sm-12">
+            <label for="nombres">Nombres</label>
+            <input type="text" class="form-control" name="nombres" id="nombres" placeholder="" value="{{ administrador.name }}" required="required">        
+        </div>
+        <div class="col-md-6 col-lg-6 col-sm-12">
+            <label for="apellidos">Apellidos</label>
+            <input type="text" class="form-control" name="apellidos" id="apellidos" placeholder="" value="{{ administrador.last_name }}" required="required">
+        </div>
+    </div>
+    <div class="row form-row">
+        <div class="col-md-6 col-lg-6 col-sm-12">
+            <label for="dropdown-docs">Tipo de Documento de Identificacion</label>
+            <select id="dropdown-docs" name= "dropwdown-docs" class = "form-control">
+                {% for tipo_doc,tipo_doc_humano in docs %}
+                <option value="{{tipo_doc}}" {% if administrador.doc_type == tipo_doc %} selected {% endif %}>{{tipo_doc_humano}}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col-md-6 col-lg-6 col-sm-12">
+            <div class="form-group">
+            <label for="nomb">Documento</label>
+            <input type="text" class="form-control" name="documento" id="documento" placeholder="" value="{{ administrador.cedula }}" required="required">
+            </div>
+        </div>
+    </div>
+    <div class="row form-row">
+        <div class="col-md-6 col-lg-6 col-sm-12">
+            <label for="dropdown-generos">Género</label>
+            <select id="dropdown-generos" name= "dropwdown-generos" class = "form-control" value="{{ administrador.genero }}">
+                {% for abrev_genero,genero in generos %}                    
+                    <option value="{{abrev_genero}}" {% if administrador.genero == abrev_genero %} selected {% endif %}>{{genero}}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col-md-6 col-lg-6 col-sm-12">
+            <label for="fecha_nacimiento">Fecha de nacimiento</label>
+            <input type="date" class="form-control" name="fecha_nacimiento" id="fecha_nacimiento" value={{ administrador.date_birth }} placeholder="" required="required">        
+        </div>
+    </div>
+    <div class="row form-row">
+        <div class="col-md-6 col-lg-6 col-sm-12">
+            <label for="email">Email</label>
+            <input type="email" class="form-control" name="email" id="email" value={{ administrador.usr_id_id__email }} placeholder="" required="required">
+        </div>
+        <div class="col-md-6 col-lg-6 col-sm-12">
+            <label for="telf">Teléfono</label>
+            <input type="tel" pattern="[0-9]{10}" class="form-control" name="telf" id="telf" value={{ administrador.phone }} placeholder="" required="required">
+        </div>
+    </div>    
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary btn-block login-btn border-button">Guardar</button>
+    </div>
+</form>
+<script type="text/javascript" src="{% static "js/utils.js" %}"></script>
+{% endblock %}

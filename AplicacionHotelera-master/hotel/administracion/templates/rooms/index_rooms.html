@@ -1,0 +1,68 @@
+{% extends 'layout_administrador.html' %}
+{% block content %}
+
+<div class="table-responsive">
+	<table class="table">
+        <thead>
+        <tr>
+            <div class="float-right">Número de Habitaciones: {{rooms.count}}</div>
+        </tr>
+        <tr>
+            <th scope="col" class="border-0 bg-light">
+            <div class="p-2 px-3 text-uppercase">Imágenes</div>
+            </th>
+            <th scope="col" class="border-0 bg-light">
+            <div class="p-2 px-3 text-uppercase">Código</div>
+            </th>
+            <th scope="col" class="border-0 bg-light">
+            <div class="p-2 px-3 text-uppercase">Número</div>
+            </th>
+            <th scope="col" class="border-0 bg-light">
+            <div class="p-2 px-3 text-uppercase">Tipo de Cuarto</div>
+            </th>
+            <th scope="col" class="border-0 bg-light">
+            <div class="py-2 text-uppercase">Descripcion</div>
+            </th>
+            <th scope="col" class="border-0 bg-light">
+            <div class="py-2 text-uppercase">Precio</div>
+            </th>
+            <th scope="col" class="border-0 bg-light">
+            <div class="py-2 text-uppercase">Acciones</div>
+            </th>
+        </tr>
+        </thead>
+		<tbody>
+        <tr>
+            <th scope="row" class ="border-0">
+            </th>
+        </tr>
+        {% if rooms %}
+        {% for cuarto in rooms %}
+        <tr>
+            <th scope="col">
+            <div class="p-2">
+                <img src="{{cuarto.path_image.url}}" alt="" width="70" class="img-fluid rounded shadow-sm">
+                <div class="ml-3 d-inline-block align-middle">
+                    <h5 class="mb-0"> 
+                        <a href="#" class="text-dark d-inline-block">{{cuarto.codigo}}</a>
+                    </h5>
+                </div>
+            </div>
+            </th>
+            <td class="align-middle"><strong>{{cuarto.nombre}}</strong></td> 
+            <td class="align-middle"><strong>{{cuarto.numero}}</strong></td> 
+            <td class="align-middle"><strong>{{cuarto.id_roomtype}}</strong></td> 
+            <td class="align-middle"><strong>{{cuarto.descripcion}}</strong></td>   
+            <td class="align-middle"><strong>{{cuarto.precio}}</strong></td>               
+            <td class="align-middle"><a href="{% url 'administracion:room_delete' cuarto.id %}" class="text-dark"><i class="fa fa-trash"></i></a></td>
+            <td><a class= "btn btn-primary" href="{% url 'administracion:room_edit' cuarto.id %}">Editar</a></td>
+        </tr>
+        {% endfor %}
+
+        {% else %}
+            <h4>No hay tours todavia</h4>
+        {% endif %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

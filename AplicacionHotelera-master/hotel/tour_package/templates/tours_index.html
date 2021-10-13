@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Roxandrea - Free Bootstrap 4 Template by Colorlib</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        
+        <link href="https://fonts.googleapis.com/css?family=Poppins:200,300,400,500,600,700" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Playfair+Display:400,400i,700,700i" rel="stylesheet">
+
+        <link rel="stylesheet" href="../static/css/open-iconic-bootstrap.min.css">
+        <link rel="stylesheet" href="../static/css/animate.css">
+        
+        <link rel="stylesheet" href="../static/css/owl.carousel.min.css">
+        <link rel="stylesheet" href="../static/css/owl.theme.default.min.css">
+        <link rel="stylesheet" href="../static/css/magnific-popup.css">
+
+        <link rel="stylesheet" href="../static/css/aos.css">
+
+        <link rel="stylesheet" href="../static/css/ionicons.min.css">
+
+        <link rel="stylesheet" href="../static/css/bootstrap-datepicker.css">
+        <link rel="stylesheet" href="../static/css/jquery.timepicker.css">
+
+        
+        <link rel="stylesheet" href="../static/css/flaticon.css">
+        <link rel="stylesheet" href="../static/css/icomoon.css">
+        <link rel="stylesheet" href="../static/css/style.css">
+    </head>
+
+    <body>
+        <nav class="navbar navbar-expand-lg ftco_navbar ftco-navbar-light scrolled awake" id="ftco-navbar">
+            <div class="container">
+                <a class="navbar-brand" href="index.html">Roxandrea</a>
+                <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="oi oi-menu"></span> Menu
+                </button>
+
+                <div class="collapse navbar-collapse" id="ftco-nav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item active"><a href="/reservas" class="nav-link">Inicio</a></li>
+                    <li class="nav-item"><a href="rooms.html" class="nav-link">Cuartos</a></li>
+                    <li class="nav-item"><a href="restaurant.html" class="nav-link">Restaurant</a></li>
+                    <li class="nav-item"><a href="about.html" class="nav-link">About</a></li>
+                    <li class="nav-item"><a href="blog.html" class="nav-link">Blog</a></li>
+                    <li class="nav-item"><a href="contact.html" class="nav-link">Contact</a></li>
+                    {% if request.session.estado %}
+                        <li class="nav-item"><span class="nav-link">{{ request.session.cliente.nombres }}</span></li>
+                    {% else %}
+                        <li class="nav-item"><a href="/accesos/login" class="nav-link">Ingresar</a></li>
+                    {% endif %}
+                </ul>
+                </div>
+            </div>
+        </nav>
+        <!-- END nav -->
+        {% block content %}
+        <div class = "row"></div>
+        <div class="container">
+            {% for object in tours %}
+                <div class="col-sm-3">
+                    <p>{{ object.title }}</p>
+                    <p>Price: ${{ object.price }}</p>
+                    <p>Company: {{ object.company }}</p>
+                    {% if object in tours_out_of_stock %}
+                    <!-- add a button here to see the product -->
+                    No hay más cupos.
+                    {% else %}
+                    <a href="{% url 'tour_package:detail_view' object.id %}" class="btn btn-warning">Add to Cart</a>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+        {% endblock %}
+    </body>
+</html>

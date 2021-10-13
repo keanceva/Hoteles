@@ -1,0 +1,13 @@
+{% load static %}
+
+<form action="/administracion/buscarcliente" class="form-style" method="POST">
+    {% csrf_token %}    
+    <div class="form-group">
+        <label for="nombres">Nombre</label>
+        <input type="text" class="form-control" name="nombres" id="nombres" placeholder="" value="" required="required">        
+    </div>    
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary btn-block login-btn border-button">Guardar</button>
+    </div>
+</form>
+<script type="text/javascript" src="{% static "js/utils.js" %}"></script>

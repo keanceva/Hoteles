@@ -1,0 +1,62 @@
+.div-invitados {
+    display: none !important;    
+}
+
+.btn-agregar-adm {
+    color: white !important;
+}
+
+.alert {
+    padding: 10px;
+    background-color: #f44336;
+    text-align: center;
+    color: white;
+    width: 30%;
+    margin: auto;
+    margin-top: 1%;
+}
+
+.alert.admin {
+    width: 100%;
+    margin-bottom: 5px;
+}
+
+.alert.success {background-color: #4CAF50;}
+  
+.closebtn {
+    margin-left: 15px;
+    color: white;
+    font-weight: bold;
+    float: right;
+    font-size: 22px;
+    line-height: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.closebtn:hover {
+    color: black;
+}
+
+/**
+Administrador
+*/
+.form-row {
+    margin-bottom: 20px;
+}
+
+#confirm:hover {
+    cursor: pointer;
+}
+
+#deny:hover {
+    cursor: pointer;
+}
+
+/* .esriMapContainer {
+    width: 100em !important;
+} */
+
+#esri-map-container {
+    width: 100% !important;    
+}

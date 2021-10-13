@@ -1,0 +1,24 @@
+<div class="panel panel-default">
+	<div class="panel-body">		
+		<div class="row">
+			<div class="col-lg-4">                
+				<label>NOMBRES:</label>
+				<p>{{ administrador.name }}</p>
+				<label>APELLIDOS:</label>
+				<p>{{ administrador.last_name }}</p>
+				<label>TELEFONO:</label>
+                <p>{{ administrador.phone }}</p>
+                <label>FECHA NACIMIENTO:</label>
+				<p>{{ administrador.date_birth }}</p
+                <label>EMAIL:</label>
+				<p>{{ administrador.usr_id_id__email }}</p>
+                <label>ESTADO:</label>
+				{% if administrador.is_removed %}                
+					<p>INACTIVO</p>
+				{% else %}
+					<p>ACTIVO</p>
+				{% endif %}
+			</div>
+		</div>
+	</div>
+</div>

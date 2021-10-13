@@ -1,0 +1,62 @@
+{% extends 'layout_administrador.html' %}
+{% block content %}
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col" class="border-0 bg-light">
+                <div class="p-2 px-3 text-uppercase">Paquete</div>
+                </th>
+                <th scope="col" class="border-0 bg-light">
+                <div class="p-2 px-3 text-uppercase">Compañía</div>
+                </th>
+                <th scope="col" class="border-0 bg-light">
+                <div class="p-2 px-3 text-uppercase">Dias</div>
+                </th>
+                <th scope="col" class="border-0 bg-light">
+                <div class="p-2 px-3 text-uppercase">Horas</div>
+                </th>
+                <th scope="col" class="border-0 bg-light">
+                <div class="py-2 text-uppercase">Precio</div>
+                </th>
+                <th scope="col" class="border-0 bg-light">
+                <div class="py-2 text-uppercase">Cantidad</div>
+                </th>
+                <th scope="col" class="border-0 bg-light">
+                <div class="py-2 text-uppercase">Acciones</div>
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            
+            {% if anuncios %}
+            {% for anuncio in anuncios %}
+            <tr>
+                <!--<th scope="row"></th>-->
+                <td class="align-middle">
+                <div class="p-2">
+                    <img src="{{ anuncio.imagen.url }}" alt="" width="70" class="img-fluid rounded shadow-sm">
+                    <div class="ml-3 d-inline-block align-middle">
+                        <h5 class="mb-0"> 
+                            <a href="#" class="text-dark d-inline-block">{{anuncio.name}}</a>
+                        </h5>
+                        <span class="text-muted font-weight-normal font-italic">{{anuncio.date}}</span>
+                    </div>
+                </div>
+                </td>
+                <td class="align-middle"><strong>Compania: {{anuncio.company}}</strong></td>
+                <td class="align-middle"><strong>Precio: {{anuncio.price}}</strong></td>
+                <td class="align-middle"><strong>Hits: {{anuncio.hits}}</strong></td>                 
+                <td class="align-middle"><a href="{% url 'administracion:publicidad_eliminar' anuncio.id %}" class="text-dark"><i class="fa fa-trash"></i></a>
+                <a class= "btn btn-primary" href="{% url 'administracion:publicidad_editar' anuncio.id %}">Editar</a></td>
+            </tr>
+            {% endfor %}
+
+            {% else %}
+                <h4>No hay anuncios publicitarios.</h4>
+            {% endif %}
+            </tbody>
+        </table>
+    </div>
+
+{% endblock %}

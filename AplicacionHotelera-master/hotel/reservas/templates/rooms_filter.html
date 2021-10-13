@@ -1,0 +1,52 @@
+{% extends 'layout_cliente.html' %}
+{% block content %}
+{% load static %}
+<div class="hero-wrap" style="background-image: url('{% static "images/bg_1.jpg" %}');">
+	<div class="overlay"></div>
+	<div class="container">
+		<div class="row no-gutters slider-text d-flex align-itemd-end justify-content-center">
+			<div class="col-md-9 ftco-animate text-center d-flex align-items-end justify-content-center">
+				<div class="text">
+					<h1 class="mb-4 bread">Resultado de búsqueda</h1>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<section class="ftco-section bg-light ftco-no-pb">
+	{% load range %}
+	<div class="row no-gutters">
+		{% for room in rooms %}
+		<div class="col-lg-6">
+			<div class="room-wrap d-md-flex">
+				{% comment %} <a href="/reservas/habitacion-detalles/{{ room.id }}" class="img"
+					style="background-image: url('C:\Users\Lenovo\Desktop\8S\descarga.png');"></a> {% endcomment %}
+				<img alt="test" src="{{ room.path_image.url }}" />
+				<div class="half left-arrow d-flex align-items-center">
+					<div class="text p-4 p-xl-5 text-center">
+						<p class="star mb-0">
+							{% if room.calificacion == 0 %}
+							<span>Sin calificación</span>
+							{% else %}
+							{% for star in room.calificacion|range %}
+							<span class="ion-ios-star"></span>
+							{% endfor %}
+							{% endif %}
+						</p>
+						<p class="mb-0"><span class="price mr-1">${{ room.precio }}</span> <span class="per">por
+								noche</span></p>
+						<h3 class="mb-3"><a
+								href="/reservas/habitacion-detalles/{{ room.id }}">{{ room.id_roomtype_id__nombre }}</a>
+						</h3>
+						<p class="pt-1"><a href="/reservas/habitacion-detalles/{{ room.id }}"
+								class="btn-custom px-3 py-2">Ver detalles <span
+									class="icon-long-arrow-right"></span></a></p>
+					</div>
+				</div>
+			</div>
+		</div>
+		{% endfor %}
+	</div>
+	</div>
+</section>
+{% endblock %}

@@ -1,0 +1,88 @@
+<head>
+    <link id="themecss" rel="stylesheet" type="text/css" href="//www.shieldui.com/shared/components/latest/css/light/all.min.css" />
+    
+</head>
+{% extends 'layout_administrador.html' %}
+{% block content %}
+
+<div>
+    <div class="row">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+            <div class="page-header">
+                <h2 class="pageheader-title">Clientes </h2>                    
+            </div>
+        </div>
+    </div>
+    <!-- ============================================================== -->
+    <!-- end pageheader  -->
+    <!-- ============================================================== -->
+    <body class="theme-light">
+        <div id="chart"></div>
+    </body>
+{% endblock %}
+{% block scripts %}
+    {{ block.super }}    # retain the standard scripts that apply everywhere
+    <script type="text/javascript" src="//www.shieldui.com/shared/components/latest/js/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" src="//www.shieldui.com/shared/components/latest/js/shieldui-all.min.js"></script>
+    <script>
+        var reservasList = trimCorchetes("{{reservas|safe}}");
+        console.log(reservasList);
+        var dictOcurrenciaReservas = dictOcurrencias(reservasList.split(", "))
+        console.log(Object.keys(dictOcurrenciaReservas));
+        
+        $(document).ready(function () {
+                        $("#chart").shieldChart({
+                            theme: "light",
+                            primaryHeader: {
+                                text: "Reservas por fecha"
+                            },
+                            exportOptions: {
+                                image: false,
+                                print: false
+                            },
+                            axisX: {
+                                categoricalValues: Object.keys(dictOcurrenciaReservas)
+                            },
+                            tooltipSettings: {
+                                chartBound: true,
+                                axisMarkers: {
+                                    enabled: true,
+                                    mode: 'xy'
+                                }                    
+                            },
+                            dataSeries: [{
+                                seriesType: 'area',
+                                collectionAlias: "Reservas Diarias",
+                                data: getValues(dictOcurrenciaReservas)
+                            }]
+                        });
+                    });
+        
+        
+            function dictOcurrencias(listaOcurrencias) {
+                var counts = {};
+        
+                for (var i = 0; i < listaOcurrencias.length; i++) {
+                var ocurrencia = listaOcurrencias[i];
+                counts[ocurrencia] = counts[ocurrencia] ? counts[ocurrencia] + 1 : 1;
+                }
+        
+                return counts
+            }
+        
+            function trimCorchetes(string) {
+                string = string.substring(1);
+                string = string.substring(0,string.length-1);
+                return string;
+            }
+        
+            function getValues(dictionary){
+                var values = Object.keys(dictionary).map(function(key){
+                    return dictionary[key];
+                });
+                return values;
+            }
+        </script>
+    {{ form.media }}     # add the form specific media/scripts
+{% endblock %}
+

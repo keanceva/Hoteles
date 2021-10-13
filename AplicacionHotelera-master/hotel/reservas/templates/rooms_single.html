@@ -1,0 +1,53 @@
+{% extends 'layout_cliente.html' %}
+{% load static %}
+{% block content %}
+<div class="hero-wrap" style="background-image: url('{% static "images/bg_1.jpg" %}');">
+      <div class="overlay"></div>
+      <div class="container">
+        <div class="row no-gutters slider-text d-flex align-itemd-end justify-content-center">
+          <div class="col-md-9 ftco-animate text-center d-flex align-items-end justify-content-center">
+          	<div class="text">	            
+	            <h1 class="mb-4 bread">Habitación</h1>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+<section class="ftco-section">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8">
+          			<div class="room-img" style="background-image: url({{ room_details.path_image }});"></div>
+          </div> <!-- .col-md-8 -->
+          <div class="col-lg-4 sidebar ftco-animate">            
+            <div class="sidebar-box ftco-animate">
+              <div class="categories">
+                <h3>{{ room_details.id_roomtype_id__nombre }}</h3>
+                <p>
+                  <span><strong>Descripción: </strong></span><span>{{ room_details.descripcion }}</span>
+                <p>
+                <p>
+                  <span><strong>No. camas: </strong></span><span>{{ room_details.num_camas }}</span>
+                <p>
+                <p>
+                  <span><strong>No. adultos: </strong></span><span>{{ room_details.num_adultos }}</span>
+                <p>
+                <p>
+                  <span><strong>No. niños: </strong></span><span>{{ room_details.num_ninos }}</span>
+                <p>
+                <p>
+                  <span><strong>Precio: </strong></span><span>{{ room_details.precio }} (por noche)</span>
+                <p>
+                <div>
+                  <form action = "/reservas/add-to-cart/{{room_details.id}}" method = "POST">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-black d-block">Agregar al carrito</button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+{% endblock %}		

@@ -1,0 +1,67 @@
+{% extends 'layout_cliente.html' %}
+{% block content %}
+{% load static %}
+<div class="hero-wrap" style="background-image: url('{% static "images/bg_1.jpg" %}');">
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="row no-gutters slider-text d-flex align-itemd-end justify-content-center">
+            <div class="col-md-9 ftco-animate text-center d-flex align-items-end justify-content-center">
+                <div class="text">
+                    <h1 class="mb-4 bread">Información de Contacto</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<section class="ftco-section contact-section bg-light">
+    <div class="container">
+        <div class="row d-flex mb-5 contact-info">
+            <div class="w-100"></div>
+            <div class="col-md-4 d-flex">
+                <div class="info bg-white p-4">
+                    <p><span>Dirección:</span> Calles Islas Plazas y Tomas de Berlanga, Puerto Ayora</p>
+                </div>
+            </div>
+            <div class="col-md-4 d-flex">
+                <div class="info bg-white p-4">
+                    <p><span>Teléfono:</span> (05) 252-6107</p>
+                </div>
+            </div>
+            <div class="col-md-4 d-flex">
+                <div class="info bg-white p-4">
+                    <p><span>Correo:</span> hotelsalinas@example.com</p>
+                </div>
+            </div>
+        </div>
+        <div class="row block-9">            
+            <div class="col-md-6 order-md-last d-flex">                
+                <form action="/contact/send-email" method="POST" class="bg-white p-5 contact-form">
+                    <h4>Preguntas o comentarios</h4>
+                    <br></br>
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <input type="text" id="name" name="name" class="form-control" placeholder="Nombres" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" id="email" name="email" class="form-control" placeholder="Correo" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" id="subject" name="subject" class="form-control" placeholder="Asunto"
+                            required>
+                    </div>
+                    <div class="form-group">
+                        <textarea name="message" id="message" cols="30" rows="7" class="form-control"
+                            placeholder="Mensaje" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Enviar" class="btn btn-primary py-3 px-5">
+                    </div>
+                </form>
+            </div>
+            <div class="col-md-6 d-flex">
+                <div id="esri-map-container" class="bg-white" style="width: 100%;"></div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,22 @@
+
+<div class="container-fluid background_design2 ">
+    <div class="header_spacing"></div>
+    <div class="container post_spacing">
+        <div class="row background_design1 blog_post_spacing inline-headers">
+            <h2>
+                <p>{{ tour_p }}</p>
+            </h2>
+            <div class = "description">
+                {{ tour_p.description|safe|linebreaks}}
+            </div>
+            <br><br>
+        </div>
+
+        <div>
+            <form method="POST" class="post-form">{% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="save btn btn-default">Agregar al Carrito</button>
+            </form>
+        </div>
+    </div>
+</div>

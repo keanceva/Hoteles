@@ -1,0 +1,11 @@
+<h2>Prueba de Listar Cuartos</h2>
+<p>{{ rooms.count }}</p>
+{% for reserva in reservas %}
+	<div>
+		<p>{{ reserva.id}}</p>
+		<p>{{ reserva.customer_id}}</p>
+		<a href="{% url 'shopping_cart:add_item cuarto.id' %}" class="btn btn-warning">
+			Add to Cart
+		</a>
+	</div>
+{% endfor %}

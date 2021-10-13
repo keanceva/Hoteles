@@ -1,0 +1,7 @@
+{% extends 'layout_cliente.html' %}
+{% block content %}
+	<form method="post">{% csrf_token %}
+	    {{ form.as_p }}
+	    <input type="submit" value="Actualizar">
+	</form>
+{% endblock %}

@@ -1,0 +1,189 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bootstrap Sign in Form with Social Login Buttons</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="{% static "css/style_login_register.css" %}">
+</head>
+
+<body
+    style="background-image: url('https://www.vistazo.com/sites/default/files/field/image/2018/09/09/islas-galapagos.jpg'); background-repeat: no-repeat; background-size: cover; background-position: center; height: 500px;">
+    <div style="float: right; margin-right: 5px">
+        <select id="language" name="language" onchange="change_language();">
+            <option value="ES">ES</option>
+            <option value="EN">EN</option>
+        </select>
+    </div>
+    <!--EN-->
+    <div id="login_es">
+        {% if 'success_register' in request.session %}
+        {% if request.session.success_register %}
+        <div class="alert success">
+            <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+            <strong>Bien!</strong> Se ha registro con éxito
+        </div>
+        {% else %}
+        <div class="alert">
+            <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+            <strong>Falló!</strong> No ha podido registrarse correctamente.
+        </div>
+        {% endif %}
+        {% endif %}
+        {% if 'success_login' in request.session %}
+        {% if request.session.success_login == False %}
+        <div class="alert">
+            <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+            <strong>Falló!</strong> Verificar credenciales
+        </div>
+        {% endif %}
+        {% endif %}
+        {% if 'success_change' in request.session %}
+        {% if request.session.success_change %}
+        <div class="alert success">
+            <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+            <strong>Bien!</strong> Se ha cambiado la contraseña exitosamente.
+        </div>
+        {% else %}
+        <div class="alert">
+            <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+            <strong>Falló!</strong> Intento recuperar la contraseña otra vez.
+        </div>
+        {% endif %}
+        {% endif %}
+        <div class="login-form center">
+            <form action="/accesos/login" class="form-style" method="POST">
+                {% csrf_token %}
+                <h2 class="text-center title-login">Ingreso</h2>
+                <div class="text-center social-btn">
+                    <a href="{% url 'social:begin' 'facebook' %}"
+                        class="btn btn-primary btn-block cente social-button border-button"><i
+                            class="fa fa-facebook"></i>Ingresar con Facebook</a>
+                    <a href="{% url 'social:begin' 'google-oauth2' %}"
+                        class="btn btn-danger btn-block social-button border-button"><i
+                            class="fa fa-google"></i>Ingresar con Google +</a>
+                </div>
+                <div class="or-seperator"><i class="or-login">o ingresa con</i></div>
+                <div class="form-group">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                        <input type="text" class="form-control" name="email" placeholder="Email" required="required">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-lock"></i></span>
+                        <input type="password" class="form-control" name="password" placeholder="Password"
+                            required="required">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary btn-block login-btn border-button">Ingresar</button>
+                </div>
+                <div class="clearfix">
+                    <label class="pull-left checkbox-inline recuerdame"><input type="checkbox"> Recuerdame</label>
+                    <a href="/accesos/recuperar-contraseña" class="pull-right text-success olvido">¿Olvidó su
+                        contraseña?</a>
+                </div>
+            </form>
+            <div class="hint-text small">¿No tienes cuenta? <a href="/accesos/registro"
+                    class="text-success registro">Registrate aquí!</a></div>
+        </div>
+    </div>
+
+    <!--EN-->
+    <div id="login_en" style="display: none;">
+        {% if 'success_register' in request.session %}
+        {% if request.session.success_register %}
+        <div class="alert success">
+            <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+            <strong>Right!</strong> You have successfully registered
+        </div>
+        {% else %}
+        <div class="alert">
+            <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+            <strong>Failure!</strong> Could not register successfully.
+        </div>
+        {% endif %}
+        {% endif %}
+        {% if 'success_login' in request.session %}
+        {% if request.session.success_login == False %}
+        <div class="alert">
+            <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+            <strong>Failure!</strong> Verify credentials
+        </div>
+        {% endif %}
+        {% endif %}
+        {% if 'success_change' in request.session %}
+        {% if request.session.success_change %}
+        <div class="alert success">
+            <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+            <strong>Right!</strong> The password has been changed successfully.
+        </div>
+        {% else %}
+        <div class="alert">
+            <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+            <strong>Failure!</strong> Try to recover the password again.
+        </div>
+        {% endif %}
+        {% endif %}
+        <div class="login-form center">
+            <form action="/accesos/login" class="form-style" method="POST">
+                {% csrf_token %}
+                <h2 class="text-center title-login">Login</h2>
+                <div class="text-center social-btn">
+                    <a href="{% url 'social:begin' 'facebook' %}"
+                        class="btn btn-primary btn-block cente social-button border-button"><i
+                            class="fa fa-facebook"></i>Login with Facebook</a>
+                    <a href="{% url 'social:begin' 'google-oauth2' %}"
+                        class="btn btn-danger btn-block social-button border-button"><i
+                            class="fa fa-google"></i>Login with Google +</a>
+                </div>
+                <div class="or-seperator"><i class="or-login">or login with</i></div>
+                <div class="form-group">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                        <input type="text" class="form-control" name="email" placeholder="Email" required="required">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-lock"></i></span>
+                        <input type="password" class="form-control" name="password" placeholder="Password"
+                            required="required">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary btn-block login-btn border-button">Login</button>
+                </div>
+                <div class="clearfix">
+                    <label class="pull-left checkbox-inline recuerdame"><input type="checkbox"> Remember me</label>
+                    <a href="/accesos/recuperar-contraseña" class="pull-right text-success olvido">Forgot your password?</a>
+                </div>
+            </form>
+            <div class="hint-text small">You do not have an account?<a href="/accesos/registro"
+                    class="text-success registro">Sign up here!</a></div>
+        </div>
+    </div>
+    <script>
+        function change_language() {
+            var x = document.getElementById("language").value;
+            if(x === "ES") {
+                document.getElementById("login_es").style.display = "block";
+                document.getElementById("login_en").style.display = "none";
+            } else {
+                document.getElementById("login_en").style.display = "block";
+                document.getElementById("login_es").style.display = "none";
+            }
+        }
+    </script>
+</body>
+
+</html>

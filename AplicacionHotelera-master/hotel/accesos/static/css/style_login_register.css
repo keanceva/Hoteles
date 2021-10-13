@@ -1,0 +1,123 @@
+.login-form {
+    width: 340px;
+    margin: 30px auto;
+}
+.login-form form {
+    margin-bottom: 15px;
+    background: #f7f7f7;
+    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+    padding: 30px;
+}
+.login-form h2 {
+    margin: 0 0 15px;
+}
+.login-form .hint-text {
+    color: white;
+    padding-bottom: 15px;
+    text-align: center;
+}
+.form-control, .btn {
+    min-height: 38px;
+    border-radius: 2px;
+}
+.login-btn {        
+    font-size: 15px;
+    font-weight: bold;
+}
+.or-seperator {
+    margin: 30px 0 10px;
+    text-align: center;        
+}
+.or-seperator i {
+    padding: 0 10px;
+    background: #f7f7f7;
+    position: relative;
+    top: -11px;
+    z-index: 1;
+}
+.social-btn .btn {
+    margin: 10px 0;
+    font-size: 15px;
+    text-align: left; 
+    line-height: 24px;       
+}
+.social-btn .btn i {
+    float: left;
+    margin: 4px 15px  0 5px;
+    min-width: 15px;
+}
+.input-group-addon .fa{
+    font-size: 18px;
+}
+.center {
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+
+.form-style {
+    background-color: transparent !important;
+    border: 1px solid white !important;
+}
+
+.title-login {        
+    color: #6199AF !important;
+    font-weight: bold !important;
+}
+
+.social-button {
+    text-align: center !important;
+}
+
+.or-login {
+    background-color: transparent !important;
+    color: #6199AF !important;        
+}
+
+.recuerdame, .olvido, .registro {
+    color: white;        
+}
+
+a:hover {
+    color: black !important;
+}
+
+.border-button {
+    border-radius: 8px;
+}
+
+.input-registro {
+    width: 100%;
+}
+
+/*Alerts login*/
+.alert {
+    padding: 10px;
+    background-color: #f44336;
+    text-align: center;
+    color: white;
+    width: 30%;
+    margin: auto;
+    margin-top: 1%;
+}
+
+.alert.success {background-color: #4CAF50;}
+  
+.closebtn {
+    margin-left: 15px;
+    color: white;
+    font-weight: bold;
+    float: right;
+    font-size: 22px;
+    line-height: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.closebtn:hover {
+    color: black;
+}
+/**/

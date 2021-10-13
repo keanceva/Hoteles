@@ -1,0 +1,344 @@
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Roxandrea - Free Bootstrap 4 Template by Colorlib</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        
+        <link href="https://fonts.googleapis.com/css?family=Poppins:200,300,400,500,600,700" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Playfair+Display:400,400i,700,700i" rel="stylesheet">
+
+        <link rel="stylesheet" href="../../static/css/open-iconic-bootstrap.min.css">
+        <link rel="stylesheet" href="../../static/css/animate.css">
+        
+        <link rel="stylesheet" href="../../static/css/owl.carousel.min.css">
+        <link rel="stylesheet" href="../../static/css/owl.theme.default.min.css">
+        <link rel="stylesheet" href="../../static/css/magnific-popup.css">
+
+        <link rel="stylesheet" href="../../static/css/aos.css">
+
+        <link rel="stylesheet" href="../../static/css/ionicons.min.css">
+
+        <link rel="stylesheet" href="../../static/css/bootstrap-datepicker.css">
+        <link rel="stylesheet" href="../../static/css/jquery.timepicker.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+        
+        <link rel="stylesheet" href="../../static/css/flaticon.css">
+        <link rel="stylesheet" href="../../static/css/icomoon.css">
+        <link rel="stylesheet" href="../../static/css/style.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+        
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+        
+
+        <style type="text/css">
+            
+/* Rating Star Widgets Style */
+.rating-stars ul {
+  list-style-type:none;
+  padding:0;
+  
+  -moz-user-select:none;
+  -webkit-user-select:none;
+}
+.rating-stars ul > li.star {
+  display:inline-block;
+  
+}
+
+/* Idle State of the stars */
+.rating-stars ul > li.star > i.fa {
+  font-size:2.5em; /* Change the size of the stars */
+  color:#ccc; /* Color on idle state */
+}
+
+/* Hover state of the stars */
+.rating-stars ul > li.star.hover > i.fa {
+  color:#FFCC36;
+}
+
+/* Selected state of the stars */
+.rating-stars ul > li.star.selected > i.fa {
+  color:#FF912C;
+}
+
+         </style>
+    </head>
+
+
+    <body>
+        <nav class="navbar navbar-expand-lg ftco_navbar ftco-navbar-light scrolled awake" id="ftco-navbar">
+            <div class="container">
+                <a class="navbar-brand" href="index.html">Roxandrea</a>
+                <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="oi oi-menu"></span> Menu
+                </button>
+
+                <div class="collapse navbar-collapse" id="ftco-nav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item active"><a href="/reservas" class="nav-link">Inicio</a></li>
+                    <li class="nav-item"><a href="rooms.html" class="nav-link">Cuartos</a></li>
+                    <li class="nav-item"><a href="restaurant.html" class="nav-link">Restaurant</a></li>
+                    <li class="nav-item"><a href="about.html" class="nav-link">About</a></li>
+                    <li class="nav-item"><a href="blog.html" class="nav-link">Blog</a></li>
+                    <li class="nav-item"><a href="contact.html" class="nav-link">Contact</a></li>
+                    {% if request.session.estado %}
+                        <li class="nav-item"><span class="nav-link">{{ request.session.cliente.nombres }}</span></li>
+                    {% else %}
+                        <li class="nav-item"><a href="/accesos/login" class="nav-link">Ingresar</a></li>
+                    {% endif %}
+                </ul>
+                </div>
+            </div>
+        </nav>
+        <!-- END nav -->
+        <div class="hero">
+
+            <h2>Historial de Reservas</h2>
+
+            <h4>Reservas Registradas</h3>
+
+            {% if registrada %}
+                {% for id,info in registrada %}
+                    <p>Numero de Reserva: {{ id}}</p>
+                    <p>Id de Cliente: {{ info.name}}</p>
+                    <p>Precio a Pagar: {{info.price}}</p>
+                {% endfor %}
+            {% else %}
+                <p>No hay reservas registradas actualmente.</p>
+            {% endif %}
+
+            <h4>Reservas Activas</h3>
+            {% if activa %}
+                <table class = "table">
+                    <thead>
+                        <tr>
+                            <th scope="col"> Booking Id </th>
+                            <th scope="col"> Client Id</th>
+                            <th scope="col"> Price</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+                    {% for id,info in activa%}
+                        <tr>
+                            <th scope="row">{{id}}</th>
+                            <td>{{info.name}}</td>
+                            <td>{{info.price}}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p>No hay reservas en curso.</p>
+            {% endif %}
+
+            <h4>Reservas Finalizadas</h3>
+            {% if finalizada %}
+                <table class = "table">
+                    <thead>
+                        <tr>
+                            <th scope="col"> Booking Id </th>
+                            <th scope="col"> Client Id</th>
+                            <th scope="col"> Price</th>
+                            <th scope="col"> Estrellas</th>
+                            <th scope="col"> Accion</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+                    {% for id,info in finalizada %}
+                        <tr>
+                            <th scope="row">{{id}}</th>
+                            <td>{{info.name}}</td>
+                            <td>{{info.price}}</td>
+                            <td>
+                                 <div class="star-rating">
+        <span style="font-size: 1.5em; color: lavenderblush;" class="fa fa-star" id="id1" data-rating="1"></span>
+        <span style="font-size: 1.5em; color: lavenderblush;" class="fa fa-star" id="id2" data-rating="2"></span>
+        <span style="font-size: 1.5em; color: lavenderblush;" class="fa fa-star" id="id3" data-rating="3"></span>
+        <span style="font-size: 1.5em; color: lavenderblush;" class="fa fa-star" id="id4" data-rating="4"></span>
+        <span style="font-size: 1.5em; color: lavenderblush;" class="fa fa-star" id="id5" data-rating="5"></span>
+        <input type="hidden" name="whatever2" class="rating-value" value="1.9">
+      </div>
+                              </td>
+                            <td> <button id="btn-modal" onclick="calificar()" class="btn btn-primary btn-agregar-adm" data-toggle="modal" data-target="#calificar" > Calificar </button></td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p>Aún no ha reservado con nosotros.</p>
+            {% endif %}
+        </div>
+        <div class="modal fade" id="extendermodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Calificar</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <form>
+                    <div class="form-group">
+                        <label for="message-text" class="col-form-label">Comentario:</label>
+                        <textarea type="text" class="form-control" rows="3" id="comentario" placeholder="Escriba su comentario.."></textarea>
+  
+                      </div>
+                    <div class="form-group">
+                      <label for="message-text" class="col-form-label">Calificacion:</label>
+                      <div class='rating-stars text-center'>
+                        <ul id='stars'>
+                          <li class='star' title='Poor' data-value='1'>
+                            <i class='fa fa-star fa-fw'></i>
+                          </li>
+                          <li class='star' title='Fair' data-value='2'>
+                            <i class='fa fa-star fa-fw'></i>
+                          </li>
+                          <li class='star' title='Good' data-value='3'>
+                            <i class='fa fa-star fa-fw'></i>
+                          </li>
+                          <li class='star' title='Excellent' data-value='4'>
+                            <i class='fa fa-star fa-fw'></i>
+                          </li>
+                          <li class='star' title='WOW!!!' data-value='5'>
+                            <i class='fa fa-star fa-fw'></i>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-primary extender" onclick="guardar()">Guardar</button>
+                      </div>
+                  </form>
+                </div>
+               
+              </div>
+            </div>
+          </div>
+    </body>
+</html>
+<script>
+    var num =0;
+    function calificar(){
+        $('#extendermodal').modal('show'); // abrir
+
+    }
+
+    $(document).ready(function(){
+  
+  /* 1. Visualizing things on Hover - See next part for action on click */
+  $('#stars li').on('mouseover', function(){
+    var onStar = parseInt($(this).data('value'), 10); // The star currently mouse on
+   
+    // Now highlight all the stars that's not after the current hovered star
+    $(this).parent().children('li.star').each(function(e){
+      if (e < onStar) {
+        $(this).addClass('hover');
+      }
+      else {
+        $(this).removeClass('hover');
+      }
+    });
+    
+  }).on('mouseout', function(){
+    $(this).parent().children('li.star').each(function(e){
+      $(this).removeClass('hover');
+    });
+  });
+  
+  
+  /* 2. Action to perform on click */
+  $('#stars li').on('click', function(){
+    var onStar = parseInt($(this).data('value'), 10); // The star currently selected
+    var stars = $(this).parent().children('li.star');
+    
+    for (i = 0; i < stars.length; i++) {
+      $(stars[i]).removeClass('selected');
+    }
+    
+    for (i = 0; i < onStar; i++) {
+      $(stars[i]).addClass('selected');
+      
+      num= i
+    }
+    
+    // JUST RESPONSE (Not needed)
+    var ratingValue = parseInt($('#stars li.selected').last().data('value'), 10);
+    var msg = "";
+    if (ratingValue > 1) {
+        msg = "Thanks! You rated this " + ratingValue + " stars.";
+    }
+    else {
+        msg = "We will improve ourselves. You rated this " + ratingValue + " stars.";
+    }
+    responseMessage(msg);
+    
+  });
+  
+  
+});
+
+
+function responseMessage(msg) {
+  $('.success-box').fadeIn(200);  
+  $('.success-box div.text-message').html("<span>" + msg + "</span>");
+}
+function guardar(){
+   alert("eviando.. "+num)
+    if(num==0){
+            document.getElementById("id1").style.color = "rgb(236, 215, 22)";
+            document.getElementById("id5").style.color = "lavenderblush";
+            document.getElementById("id2").style.color = "lavenderblush";
+            document.getElementById("id3").style.color = "lavenderblush";
+            document.getElementById("id4").style.color = "lavenderblush";
+    }
+    if(num==1)
+        {
+            document.getElementById("id1").style.color = "rgb(236, 215, 22)";
+             document.getElementById("id2").style.color = "rgb(236, 215, 22)";
+             document.getElementById("id5").style.color = "lavenderblush";
+   
+            document.getElementById("id3").style.color = "lavenderblush";
+            document.getElementById("id4").style.color = "lavenderblush";
+        }
+        if(num==2)
+        {
+            document.getElementById("id1").style.color = "rgb(236, 215, 22)";
+             document.getElementById("id2").style.color = "rgb(236, 215, 22)";
+            document.getElementById("id3").style.color = "rgb(236, 215, 22)";
+            
+            document.getElementById("id4").style.color = "lavenderblush";
+            document.getElementById("id5").style.color = "lavenderblush";
+        }
+        if(num==3)
+        {
+            document.getElementById("id1").style.color = "rgb(236, 215, 22)";
+             document.getElementById("id2").style.color = "rgb(236, 215, 22)";
+            document.getElementById("id3").style.color = "rgb(236, 215, 22)";
+            document.getElementById("id4").style.color = "rgb(236, 215, 22)";
+
+            document.getElementById("id5").style.color = "lavenderblush";
+   
+        }
+        if(num==4){
+            document.getElementById("id1").style.color = "rgb(236, 215, 22)";
+            document.getElementById("id2").style.color = "rgb(236, 215, 22)";
+            document.getElementById("id3").style.color = "rgb(236, 215, 22)";
+            document.getElementById("id4").style.color = "rgb(236, 215, 22)";
+            document.getElementById("id5").style.color = "rgb(236, 215, 22)";
+        }
+
+    
+
+    $('#extendermodal').modal('hide'); 
+    $("#comentario").val("");
+}
+
+    </script>

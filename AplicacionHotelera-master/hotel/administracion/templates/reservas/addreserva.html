@@ -1,0 +1,450 @@
+{% extends 'layout_administrador.html' %}
+{% block content %}
+{% load static %}
+<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"> -->
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/select/1.3.1/css/select.dataTables.min.css">
+<div>
+    <br>
+
+    <!-- Modal -->
+    <div class="modal fade" id="verificacionModal" tabindex="-1" role="dialog" aria-labelledby="verificacionModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="verificacionModalLabel">Confirmación de reserva</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">                                  
+                    <div class="row">
+                        <div class="col-md-6 col-sm-12">
+                            <strong>Cliente: </strong>
+                        </div>
+                        <div class="col-md-6 col-sm-12">
+                            <span id="conf-cliente"></span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 col-sm-12">
+                            <strong>No de Documento: </strong>
+                        </div>
+                        <div class="col-md-6 col-sm-12">
+                            <span id="conf-doc"></span>
+                        </div>
+                    </div>                                 
+                    <div class="row">
+                        <div class="col-md-6 col-sm-12">
+                            <strong>Habitacion: </strong>
+                        </div>
+                        <div class="col-md-6 col-sm-12">
+                            <span id="conf-hab"></span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 col-sm-12">
+                            <strong>Llegada: </strong>
+                        </div>
+                        <div class="col-md-6 col-sm-12">
+                            <span id="conf-lle"></span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 col-sm-12">
+                            <strong>Salida: </strong>
+                        </div>
+                        <div class="col-md-6 col-sm-12">
+                            <span id="conf-sal"></span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3 col-sm-6">
+                            <strong>No Adultos: </strong>
+                        </div>
+                        <div class="col-md-3 col-sm-6">
+                            <span id="conf-adu"></span>
+                        </div>
+                        <div class="col-md-3 col-sm-6">
+                            <strong>No Ninos: </strong>
+                        </div>
+                        <div class="col-md-3 col-sm-6">
+                            <span id="conf-nin"></span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 col-sm-12">
+                            <strong>Total a pagar: </strong>
+                        </div>
+                        <div class="col-md-6 col-sm-12">
+                            <span id="conf-tot"></span>
+                        </div>
+                    </div>                    
+                </div>
+            </div>
+            <div class="modal-footer">                
+                <form method="POST" action="/administracion/agregar_reserva">
+                    {% csrf_token %}
+                    <div style="display: none;">
+                        <input type="text" value="" id="id_cliente" name="id_cliente"/>
+                        <input type="text" value="" id="tipo_documento_form" name="tipo_documento_form"/>
+                        <input type="text" value="" id="documento_form" name="documento_form"/>
+                        <input type="text" value="" id="nombres_form" name="nombres_form"/>
+                        <input type="text" value="" id="apellidos_form" name="apellidos_form"/>
+                        <input type="date" value="" id="fecha_nacimiento_form" name="fecha_nacimiento_form"/>
+                        <input type="email" value="" id="email_form" name="email_form"/>
+                        <input type="tel" value="" id="telf_form" name="telf_form"/>
+                        
+                        <input type="text" value="" id="id_habitacion" name="id_habitacion"/>
+                        <input type="text" value="" id="fechain_form" name="fechain_form"/>
+                        <input type="text" value="" id="fechasal_form" name="fechasal_form"/>
+                        <input type="number" value="" id="num_adultos_form" name="num_adultos_form"/>
+                        <input type="number" value="" id="num_ninos_form" name="num_ninos_form"/>
+                        <input type="text" value="" id="total_pagar_form" name="total_pagar_form"/>
+                    </div>                        
+                    <div>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-secondary">Aceptar</button>
+                    </div>
+                </form>
+            </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="card">
+            <h5 class="card-header">                
+                <span style="vertical-align: inherit;">Reserva: </span>
+            </h5>
+            <div class="card-body">
+
+                <form action="/administracion/agregar_reserva" class="form-style" method="POST">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-xl-6 col-md-6 col-sm-6">
+                            <div class="form-group">
+                                <label for="dropdown-docs">Tipo de Documento de Identificacion</label>
+                                <select id="dropdown-docs" name="dropwdown-docs" class="form-control">
+                                    {% for tipo_doc,tipo_doc_humano in choices_id %}
+                                    <option value="{{tipo_doc}}">{{tipo_doc_humano}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-xl-6 col-md-6 col-sm-6 ">
+                            <div class="form-group">
+                                <label for="ced">Documento</label>
+                                <input type="text" class="form-control" name="cedula" id="cedula"
+                                    placeholder="Ingrese su Documento" value="" required="required" maxlength="10"
+                                    onkeyup="this.value=this.value.replace(/[^\d]/,'')">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+
+                        <div class="col-xl-6 col-md-6 col-sm-6 ">
+                            <div class="form-group">
+                                <label for="nomb">Nombres</label>
+                                <input type="text" class="form-control" name="nombres" id="nombres" placeholder=""
+                                    value="" required="required" disabled>
+                            </div>
+                        </div>
+                        <div class="col-xl-6 col-md-6 col-sm-6 ">
+                            <div class="form-group">
+                                <label for="apellidos">Apellidos</label>
+                                <input type="text" class="form-control" name="apellidos" id="apellidos" placeholder=""
+                                    value="" required="required" disabled>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
+                            <div class="form-group">
+                                <label for="fecha_nacimiento">Fecha de nacimiento</label>
+                                <input type="date" class="form-control" name="fecha_nacimiento" id="fecha_nacimiento"
+                                    value="" placeholder="" required="required" disabled>
+                            </div>
+                        </div>
+                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input type="email" class="form-control" name="email" id="email" value="" placeholder=""
+                                    required="required" disabled>
+                            </div>
+                        </div>
+                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
+                            <div class="form-group">
+                                <label for="telf">Teléfono</label>
+                                <input type="tel" pattern="[0-9]{10}" class="form-control" name="telf" id="telf"
+                                    value="" placeholder="" required="required" disabled>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xl-6 col-md-6">
+                            <div class="form-group">
+                                <label for="fechain">Fecha de ingreso</label>
+                                <input type="text" class="form-control" id="fechain" name="fechain" required>
+                                <!-- <input type="date" class="form-control" name="fechain" id="fechain" value=""
+                                    placeholder="" required="required">
+                                <input type="number" class="form-control" name="estado" id="estado" hidden> -->
+                            </div>
+                        </div>
+                        <div class="col-xl-6 col-md-6">
+                            <div class="form-group">
+                                <label for="fechasal">Fecha de salida</label>
+                                <input type="text" class="form-control" id="fechasal" name="fechasal" required>
+                                <!-- <input type="date" class="form-control" name="fechasal" id="fechasal" value=""
+                                    placeholder="" required="required"> -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <h5 class="card-header">                            
+                            <span style="vertical-align: inherit;">Habitacion </span>                            
+                        </h5>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-xl-4 col-md-4">                                    
+                                    <label for="select_tipo_habitacion">Tipo</label>
+                                    <select name="select_tipo_habitacion" id="select_tipo_habitacion" class="form-control">
+                                        {% for type in room_type %}
+                                            <option value={{ type.id }}>{{ type.nombre }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="col-xl-4 col-md-4">
+                                    <label for="Adultos">Adultos</label>
+                                    <input class="form-control" type="number" name="habitacion" id="adultos" value="0" placeholder="" required>
+                                </div>
+                                <div class="col-xl-4 col-md-4">
+                                    <label for="niños">Niños</label>
+                                    <input class="form-control" type="number" name="habitacion" id="ninos" value="0" placeholder="" required>
+                                </div>
+                            </div>                            
+                            <div class="row" style="margin-top:10px; margin-bottom:10px;">
+                                <div class="col-xl-12 col-md-12">
+                                    <button style="width: 100%;" type="button" class="btn btn-primary" onclick=buscarhabitacion()><i class="fas fa-search"></i> BUSCAR</button>
+                                </div>                                
+                            </div>                
+                        
+                            <div class="row">
+                                <div class="table-responsive">
+                                    <table id="table-rooms" class="table table-striped table-bordered first">
+                                        <thead>
+                                            <tr>
+                                                <th></th>
+                                                <th>ID</th>
+                                                <th>Nombre</th>
+                                                <th>Numero</th>
+                                                <th>Descripcion</th>
+                                                <th>Precio</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <button type="button" id="btn-guardar" class="btn btn-primary btn-block login-btn border-button" data-toggle="modal" data-target="#verificacionModal">
+                                Guardar
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    {% block scripts %}
+    <!-- block.super will get the content of the block from the parent template -->
+    {{ block.super }}
+    <script>
+        var table;
+        $(document).ready(function () {
+            $('#fechain').datetimepicker();
+            $('#fechasal').datetimepicker();
+            $("#cedula").change(function () {
+
+                var cedula = $('#cedula').val();
+                var tipo_documento = $('#dropdown-docs').val();
+
+                var nombres = $("#nombres").val;
+                var apellidos = $("#apellidos").val;
+                var fn = $("#fecha_nacimiento").val;
+                var emai = $("#email").val();
+                var telefono = $("#telf").val;
+                $.ajax({
+
+                    url: '/administracion/buscarcliente/',
+                    data: {
+                        'cedula': cedula,
+                        'tipo_documento': tipo_documento,
+                    },
+                    dataType: 'json',
+                    success: function (result) {
+                        if (result.existe) {
+
+                            $("#nombres").attr('disabled', 'disabled');
+                            $("#apellidos").attr('disabled', 'disabled');
+                            $("#fecha_nacimiento").attr('disabled', 'disabled');
+                            $("#email").attr('disabled', 'disabled');
+                            $("#telf").attr('disabled', 'disabled');
+
+                            $("#nombres").val(result.nombres);
+                            $("#apellidos").val(result.apellidos);
+                            $("#fecha_nacimiento").val(result.fecha_nacimiento);
+                            $("#email").val(result.email);
+                            $("#telf").val(result.telefono);
+                            $("#id_cliente").val(result.id);
+                        }
+                        else {
+
+                            $("#nombres").removeAttr('disabled');
+                            $("#apellidos").removeAttr('disabled');
+                            $("#fecha_nacimiento").removeAttr('disabled');
+                            $("#email").removeAttr('disabled');
+                            $("#telf").removeAttr('disabled');
+                            $("#nombres").val('');
+                            $("#apellidos").val('');
+                            $("#fecha_nacimiento").val('');
+                            $("#email").val('');
+                            $("#telf").val('');
+                        }
+                    },
+                        error: function () { alert('An error occured'); }
+                    });
+                });
+
+            $('#dropdown-docs').on('change', function () {
+                $('#cedula').val("");
+                $("#nombres").val("")
+                $("#apellidos").val("")
+                $("#fecha_nacimiento").val("")
+                $("#email").val("")
+                $("#telf").val("")
+            });
+
+        })
+        
+        function buscarhabitacion() {
+            var tipo = $("#select_tipo_habitacion").val();
+            var fechain = $("#fechain").val();
+            var fechaout = $("#fechasal").val();
+            var ninos = $("#ninos").val();
+            var adultos = $("#adultos").val();
+            let data = {
+                    'select_num_ninos': ninos,
+                    'select_num_adultos': adultos,
+                    'fechain': fechain,
+                    'fechaout': fechaout,
+                    'tipo': tipo
+            };
+
+            console.log(data);
+            $.ajax({
+
+                url: '/administracion/buscarhabitaciones/',
+                data: {
+                    'select_num_ninos': ninos,
+                    'select_num_adultos': adultos,
+                    'fechain': fechain,
+                    'fechaout': fechaout,
+                    'tipo': tipo
+                },
+                dataType: 'json',
+                success: function (result) {
+                    if(!result.error){
+                        /* var table = $('#table-rooms');
+                        table.find("tbody tr").remove(); */
+                        var data = [];
+                        result.data.forEach(function (room) {
+                            var data_room = [];
+                            data_room.push('');
+                            data_room.push(room.id);
+                            data_room.push(room.nombre);
+                            data_room.push(room.numero);
+                            data_room.push(room.descripcion);
+                            data_room.push(room.precio);
+                            data.push(data_room)
+                            /* table.append("<tr><td></td><td>"+room.id+"</td><td>"+room.nombre+"</td><td>"+room.numero+"</td><td>"+room.descripcion+"</td><td>"+room.precio+"</td></tr>"); */
+                        })
+
+                        console.log(data);
+
+                        table = $('#table-rooms').DataTable({
+                            data: data,
+                            columnDefs: [{
+                                orderable: false,
+                                className: 'select-checkbox',
+                                targets: 0
+                            } ],
+                            select: {
+                                style: 'os',
+                                selector: 'td:first-child'
+                            },
+                            order: [[ 1, 'asc' ]]
+                        });
+
+                        $('#btn-guardar').on('click', function() {
+                            var tblData = table.rows('.selected').data();                            
+                            console.log(tblData[0]);    //En este caso solo se puede seleccionar una fila
+                            /**
+                             * Set para solo vista
+                            */
+                            document.getElementById('conf-cliente').innerHTML = `${document.getElementById('nombres').value} ${document.getElementById('apellidos').value}`;
+                            document.getElementById('conf-doc').innerHTML = `${document.getElementById('cedula').value}`;
+                            document.getElementById('conf-hab').innerHTML = `${tblData[0][2]} ${tblData[0][3]}`;
+                            document.getElementById('conf-lle').innerHTML = `${document.getElementById('fechain').value}`;
+                            document.getElementById('conf-sal').innerHTML = `${document.getElementById('fechasal').value}`;
+                            document.getElementById('conf-adu').innerHTML = `${document.getElementById('adultos').value}`;
+                            document.getElementById('conf-nin').innerHTML = `${document.getElementById('ninos').value}`;
+                            var total_pagar = (parseInt(document.getElementById('adultos').value)+parseInt(document.getElementById('ninos').value))*tblData[0][5];
+                            document.getElementById('conf-tot').innerHTML = `${total_pagar}`;
+
+                            /**
+                             * Set para el formulario
+                            */
+                            document.getElementById('tipo_documento_form').value = document.getElementById('dropdown-docs').value;
+                            document.getElementById('documento_form').value = document.getElementById('cedula').value;
+                            document.getElementById('nombres_form').value = document.getElementById('nombres').value;
+                            document.getElementById('apellidos_form').value = document.getElementById('apellidos').value;
+                            document.getElementById('fecha_nacimiento_form').value = document.getElementById('fecha_nacimiento').value;
+                            document.getElementById('email_form').value = document.getElementById('email').value;
+                            document.getElementById('telf_form').value = document.getElementById('telf').value;
+
+                            document.getElementById('id_habitacion').value = tblData[0][1];
+                            document.getElementById('fechain_form').value = document.getElementById('fechain').value;
+                            document.getElementById('fechasal_form').value = document.getElementById('fechasal').value;
+                            document.getElementById('num_adultos_form').value = document.getElementById('adultos').value;
+                            document.getElementById('num_ninos_form').value = document.getElementById('ninos').value;
+                            document.getElementById('total_pagar_form').value = total_pagar;
+
+                        })
+
+                    } else {
+                        console.log(result);
+                        var table = $('#table-rooms');
+                        table.find("tbody tr").remove();
+                    }                    
+                },
+                error: function () {
+                    console.log(result);
+                    var table = $('#table-rooms');
+                    table.find("tbody tr").remove();
+                    alert('An error occured'); 
+                }
+            });
+        }
+
+    </script>
+    {% endblock %}    
+{% endblock %}
